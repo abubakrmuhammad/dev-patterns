@@ -32,18 +32,32 @@ class Counter {
 const singletonClassCounter = new Counter();
 Object.freeze(singletonClassCounter);
 
-const singletonObjectCounter = {
-  count: 0,
+const singletonObjectCounter = (() => {
+  let count = 0;
 
-  increment() {
-    return ++this.count;
-  },
+  return {
+    getCount() {
+      return count;
+    },
 
-  decrement() {
-    return --this.count;
+    increment() {
+      return ++count;
+    },
+
+    decrement() {
+      return --count;
+    }
   }
-}
+})();
 
 Object.freeze(singletonObjectCounter);
+
+let count = singletonObjectCounter.getCount();
+count;
+
+singletonObjectCounter.increment();
+
+count = singletonObjectCounter.getCount();
+count;
 
 export { singletonClassCounter, singletonObjectCounter };
